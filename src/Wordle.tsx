@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import OnScreenKeyboard from './OnScreenKeyboard';
 
 const words = [
     "APPLE",
@@ -108,6 +109,16 @@ export default function Wordle() {
 
 
 
+    const handleKey = (key: string) => {
+        if (key === "Enter") {
+            handleGuess();
+        } else if (key === "Backspace") {
+            setWord((prev) => prev.slice(0, -1));
+        } else if (/^[a-zA-Z]$/.test(key) && word.length < 5) {
+            setWord((prev) => prev + key.toUpperCase());
+        }
+    };
+
     return (
         <div className="flex flex-col items-center gap-4 p-6">
             <input
@@ -145,6 +156,10 @@ export default function Wordle() {
                         ))}
                     </div>
                 ))}
+            </div>
+
+            <div>
+                <OnScreenKeyboard onKey={(k) => handleKey(k)} />
             </div>
 
 
